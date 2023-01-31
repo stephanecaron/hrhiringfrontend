@@ -3,6 +3,7 @@ import './App.css';
 import './forms.css';
 import Header from'./components/Header';
 import Form from './components/Form';
+import Login from './components/Login';
 
 
 
@@ -14,6 +15,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/add/:entryId" element={(<Form  />)} />
+          <Route path="login" element={<Login />} />
         </Routes>
       </div>
     </BrowserRouter>

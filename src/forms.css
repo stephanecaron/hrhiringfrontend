@@ -25,24 +25,31 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  max-height: 80vh;
+  max-height: 62vh;
   margin: 20px auto;
   width: 30rem;
   padding-top: 5px;
   padding-bottom: 25px;
-  background-color: rgb(224, 224, 224);
-  border: 1px solid black;
-  border-radius: 0.9rem;
+  background: linear-gradient(
+    98deg,
+    rgba(255, 255, 255, 0.1),
+    rgb(0, 0, 0) 200.71%
+  )/* ,
+  linear-gradient(90deg, rgba(255, 0, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
+  linear-gradient(270deg, rgb(255, 0, 179), rgba(0, 0, 255, 0) 70.71%),
+  linear-gradient(0deg, rgba(0, 255, 34, 0.8), rgba(0, 0, 255, 0) 70.71%) */;
+ /*  border: 1px solid black; */
+  border-radius: 0.2rem;
   box-shadow: 2px 2px 5px #666;
 }
 
 .question-container::-webkit-scrollbar {
-  width: 0.2em;
+  width: 0em;
   background-color: transparent;
   }
   
   .question-container::-webkit-scrollbar-thumb {
-  background-color: #708c24;
+  background-color: #010200;
   }
 
 .question-section {
@@ -64,9 +71,18 @@
   font-size: 15px;
   border: 1px solid #ccc;
   border-radius: 0.2rem;
-  box-shadow: 1px 1px 1px #666;
   outline: none;
   width: 20rem;
+}
+
+.question-input:checkbox{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+
 }
 
 .question-input:focus {

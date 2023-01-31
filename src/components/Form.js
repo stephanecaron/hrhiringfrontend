@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
+import { sendForm } from "../actions";
 
 const FormPage = () => {
   const [currentSection, setCurrentSection] = useState(1);
@@ -26,50 +27,43 @@ const FormPage = () => {
       question8,
       question9,
       entryId,
-      date: new Date().toISOString(),
+      formDate: new Date().toISOString().substring(0, 10),
     };
-  
-    try {
-      const response = await fetch("<YOUR_BACKEND_URL>", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
-  
-      alert("Form submitted!");
-    } catch (error) {
-      console.error(error);
-      console.log(data)
-      alert("Failed to submit form");
-    }
+    console.log(data)
+    await sendForm(data);
   };
 
   const section1 = [ 
-                    { question: "What is your name?", value: question1, setValue: setQuestion1, type: "number"},
-                    { question: "Date", value: question2, setValue: setQuestion2, type: "date"},
-                    { question: "what is your telephone #?", value: question3, setValue: setQuestion3, type: "tel"},
-                   ];
+                    { question: "Validation des réferences Interne si applicable?", value: question1, setValue: setQuestion1, type: "checkbox"},
+                    { question: "Date de l'entrevue", value: question2, setValue: setQuestion2, type: "date"},
+                    { question: "Televersé la fiche de réferences interne", value: question5, setValue: setQuestion5, type: "text"},
+                    { question: "Televersé la fiche de l'entrevue", value: question3, setValue: setQuestion3, type: "text"},
+                    { question: "Televersé la fiche de réferences externe", value: question5, setValue: setQuestion5, type: "text"},
+                    { question: "Validation auprès des départements", value: question5, setValue: setQuestion5, type: "checkbox"},
+                    { question: "Informer le candidat de la décision", value: question4, setValue: setQuestion4, type:"date"},
+                    { question: "Est-ce que le candidat a été retenu (Yes or No)", value: question4, setValue: setQuestion4, type:"checkbox"},
+                    { question: "Date ou le candidat a été informé de la décision", value: question4, setValue: setQuestion4, type:"date"},
+                    { question: "Si non-retenu, pourquoi?", value: question4, setValue: setQuestion4, type:"text"},
+                    { question: "Est-ce que l'employé a accepté l'offre (Yes or No)", value: question4, setValue: setQuestion4, type:"checkbox"},
+                    { question: "Commentaire", value: question4, setValue: setQuestion4, type:"text"},
+                  ];
 
   const section2 = [ 
-                    { question: "What is your occupation?", value: question4, setValue: setQuestion4, },
-                    { question: "What is your phone number?", value: question5, setValue: setQuestion5, },
-                    { question: "What is your email?", value: question6, setValue: setQuestion6, },  
+                   
+    { question: "Cédulez une rencontre pour les signature de l'entente (si applicable)", value: question6, setValue: setQuestion6, type: "checkbox" }, 
+    { question: "Cédulez l'orientation général", value: question6, setValue: setQuestion6, type: "checkbox" }, 
+    { question: "Est-ce que la fiche de l'employé a été remplie", value: question6, setValue: setQuestion6, type: "checkbox" }, 
+    { question: "Recueuillir les documents nécessaires (CheckVoid, Certificats, etc.)?", value: question5, setValue: setQuestion5, type: "checkbox"},
+    { question: "File upload (si nécessaire)", value: question5, setValue: setQuestion5, type: "checkbox"},
+    { question: "Est-ce que j'ai recueuilli tout les documents nécessaires afin de finalisé le dossier physique de l'employé?", value: question5, setValue: setQuestion5, type: "checkbox"},
+    { question: "Préparation de l'horaire de l'orientation général", value: question5, setValue: setQuestion5, type: "checkbox"},      
+    { question: "Ajouté l'acceuil de l'employé dans agenda & invité les gens concerné", value: question5, setValue: setQuestion5, type: "checkbox"},      
+    { question: "Date de la completion de l'embauche", value: question5, setValue: setQuestion5, type: "date"},      
                   ];
 
-  const section3 = [ 
-                    { question: "Additional test", value: question7, setValue: setQuestion7, },
-                    { question: "Comments", value: question8, setValue: setQuestion8, },
-                    { question: "Commentaire", value: question9, setValue: setQuestion9, },
-  
-                  ];
 
-  const sections = [section1, section2, section3];
+
+  const sections = [section1, section2];
 
   return (
  <div> <div className="section-nav-bar">
@@ -78,22 +72,16 @@ const FormPage = () => {
           onClick={() => setCurrentSection(1)}
           disabled={currentSection === 1}
         >
-          Section 1
+          Selection
         </button>
         <button
           className="section-nav-button"
           onClick={() => setCurrentSection(2)}
           disabled={currentSection === 2}
         >
-          Section 2
+          Embauche
         </button>
-    <button
-          className="section-nav-button"
-          onClick={() => setCurrentSection(3)}
-          disabled={currentSection === 3}
-        >
-          Section 3
-        </button>
+
       </div>
       <div className="question-container">
     <b>  you are currently adding Entry ID : {entryId}</b>
@@ -108,6 +96,7 @@ const FormPage = () => {
                       question.type === 'number' ? 'number' :
                       question.type === 'tel' ? 'tel' :
                       question.type === 'date' ? 'date' :
+                      question.type === 'checkbox' ? 'checkbox' :
                       question.type === 'email' ? 'email' : 'text'}
             />
           </div>
