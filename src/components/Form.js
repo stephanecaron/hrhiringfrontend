@@ -4,28 +4,42 @@ import { sendForm } from "../actions";
 
 const FormPage = () => {
   const [currentSection, setCurrentSection] = useState(1);
-  const [question1, setQuestion1] = useState("");
-  const [question2, setQuestion2] = useState("");
-  const [question3, setQuestion3] = useState("");
-  const [question4, setQuestion4] = useState("");
-  const [question5, setQuestion5] = useState("");
-  const [question6, setQuestion6] = useState("");
-  const [question7, setQuestion7] = useState("");
-  const [question8, setQuestion8] = useState("");
-  const [question9, setQuestion9] = useState("");
+  const [referenceInterne, setreferenceInterne] = useState("");
+  const [dateEntrevue, setdateEntrevue] = useState("");
+  const [telechargementRefInterne, settelechargementRefInterne] = useState("");
+  const [telechargementFicheEntrevue, settelechargementFicheEntrevue] = useState("");
+  const [telechargementRefExterne, settelechargementRefExterne] = useState("");
+  const [validationDepartement, setvalidationDepartement] = useState("");
+  const [nonRetenuComment, setnonRetenuComment] = useState("");
+  const [dateCandidatInforme, setdateCandidatInforme] = useState("");
+  const [commentaireSelection, setcommentaireSelection] = useState("");
+  const [rencontreEntente, setrencontreEntente] = useState("");
+  const [cedulerOrientationGen, setcedulerOrientationGen] = useState("");
+  const [ficheEmpRemplis, setficheEmpRemplis] = useState("");
+  const [documentsNecessaires, setdocumentsNecessaires] = useState("");
+  const [documentFile, setdocumentFile] = useState("");
+  const [preparationHoraireGen, setpreparationHoraireGen] = useState("");
+  const [acceuilGen, setacceuilGen] = useState("");
+  const [dateComplete, setdateComplete] = useState("");
   let { entryId } = useParams();
+
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
 
   const handleSubmit = async () => {
     const data = {
-      question1,
-      question2,
-      question3,
-      question4,
-      question5,
-      question6,
-      question7,
-      question8,
-      question9,
+      referenceInterne,
+      dateEntrevue,
+      telechargementRefInterne,
+      telechargementFicheEntrevue,
+      telechargementRefExterne,
+      validationDepartement,
+      dateCandidatInforme,
+      nonRetenuComment,
+      commentaireSelection,
       entryId,
       formDate: new Date().toISOString().substring(0, 10),
     };
@@ -34,39 +48,36 @@ const FormPage = () => {
   };
 
   const section1 = [ 
-                    { question: "Validation des réferences Interne si applicable?", value: question1, setValue: setQuestion1, type: "checkbox"},
-                    { question: "Date de l'entrevue", value: question2, setValue: setQuestion2, type: "date"},
-                    { question: "Televersé la fiche de réferences interne", value: question5, setValue: setQuestion5, type: "text"},
-                    { question: "Televersé la fiche de l'entrevue", value: question3, setValue: setQuestion3, type: "text"},
-                    { question: "Televersé la fiche de réferences externe", value: question5, setValue: setQuestion5, type: "text"},
-                    { question: "Validation auprès des départements", value: question5, setValue: setQuestion5, type: "checkbox"},
-                    { question: "Informer le candidat de la décision", value: question4, setValue: setQuestion4, type:"date"},
-                    { question: "Est-ce que le candidat a été retenu (Yes or No)", value: question4, setValue: setQuestion4, type:"checkbox"},
-                    { question: "Date ou le candidat a été informé de la décision", value: question4, setValue: setQuestion4, type:"date"},
-                    { question: "Si non-retenu, pourquoi?", value: question4, setValue: setQuestion4, type:"text"},
-                    { question: "Est-ce que l'employé a accepté l'offre (Yes or No)", value: question4, setValue: setQuestion4, type:"checkbox"},
-                    { question: "Commentaire", value: question4, setValue: setQuestion4, type:"text"},
-                  ];
+    { question: "Validation des réferences Interne si applicable?", value: referenceInterne, setValue: setreferenceInterne, type: "checkbox"},
+    { question: "Date de l'entrevue", value: dateEntrevue, setValue: setdateEntrevue, type: "date"},
+    { question: "Televersé la fiche de réferences interne", value: telechargementRefInterne, setValue: settelechargementRefInterne, type: "file"},
+    { question: "Televersé la fiche de l'entrevue", value: telechargementFicheEntrevue, setValue: settelechargementFicheEntrevue, type: "file"},
+    { question: "Televersé la fiche de réferences externe", value: telechargementRefExterne, setValue: settelechargementRefExterne, type: "file"},
+    { question: "Validation auprès des départements", value: validationDepartement, setValue: setvalidationDepartement, type: "checkbox"},
+    { question: "Est-ce que le candidat a été retenu?", value: selectedOption, setValue: setSelectedOption, type: "radio", options: [{ value: "Yes", label: "Yes" }, { value: "No", label: "No" }]},
+    { question: "Si non-retenu, pourquoi?", value: nonRetenuComment, setValue: setnonRetenuComment, type:"text"},
+    { question: "Informer le candidat de la décision", value: dateCandidatInforme, setValue: setdateCandidatInforme, type:"date"},
+    { question: "Est-ce que le candidat a accepté l'offre?", value: selectedOption, setValue: setSelectedOption, type: "radio", options: [{ value: "Yes", label: "Yes" }, { value: "No", label: "No" }] },
+    { question: "Commentaire", value: commentaireSelection, setValue: setcommentaireSelection, type:"text"},
+  ];
 
-  const section2 = [ 
-                   
-    { question: "Cédulez une rencontre pour les signature de l'entente (si applicable)", value: question6, setValue: setQuestion6, type: "checkbox" }, 
-    { question: "Cédulez l'orientation général", value: question6, setValue: setQuestion6, type: "checkbox" }, 
-    { question: "Est-ce que la fiche de l'employé a été remplie", value: question6, setValue: setQuestion6, type: "checkbox" }, 
-    { question: "Recueuillir les documents nécessaires (CheckVoid, Certificats, etc.)?", value: question5, setValue: setQuestion5, type: "checkbox"},
-    { question: "File upload (si nécessaire)", value: question5, setValue: setQuestion5, type: "checkbox"},
-    { question: "Est-ce que j'ai recueuilli tout les documents nécessaires afin de finalisé le dossier physique de l'employé?", value: question5, setValue: setQuestion5, type: "checkbox"},
-    { question: "Préparation de l'horaire de l'orientation général", value: question5, setValue: setQuestion5, type: "checkbox"},      
-    { question: "Ajouté l'acceuil de l'employé dans agenda & invité les gens concerné", value: question5, setValue: setQuestion5, type: "checkbox"},      
-    { question: "Date de la completion de l'embauche", value: question5, setValue: setQuestion5, type: "date"},      
-                  ];
+  const section2 = [             
+    { question: "Cédulez une rencontre pour les signature de l'entente (si applicable)", value: rencontreEntente, setValue: setrencontreEntente, type: "checkbox" }, 
+    { question: "Cédulez l'orientation général", value: cedulerOrientationGen, setValue: setcedulerOrientationGen, type: "checkbox" }, 
+    { question: "Est-ce que la fiche de l'employé a été remplie", value: ficheEmpRemplis, setValue: setficheEmpRemplis, type: "checkbox" }, 
+    { question: "Recueuillir les documents nécessaires (CheckVoid, Certificats, etc.)?", value: documentsNecessaires, setValue: setdocumentsNecessaires, type: "checkbox"},
+    { question: "File upload (si nécessaire)", value: documentFile, setValue: setdocumentFile, type: "checkbox"},
+    { question: "Préparation de l'horaire de l'orientation général", value: preparationHoraireGen, setValue: setpreparationHoraireGen, type: "checkbox"},      
+    { question: "Ajouté l'acceuil de l'employé dans agenda & invité les gens concerné", value: acceuilGen, setValue: setacceuilGen, type: "checkbox"},      
+    { question: "Date de la completion de l'embauche", value: dateComplete, setValue: setdateComplete, type: "date"},      
+  ];
 
 
 
   const sections = [section1, section2];
 
   return (
- <div> <div className="section-nav-bar">
+ <div><center>  you are currently adding Entry ID : {entryId}</center> <div className="section-nav-bar">
    <button
           className="section-nav-button"
           onClick={() => setCurrentSection(1)}
@@ -84,23 +95,81 @@ const FormPage = () => {
 
       </div>
       <div className="question-container">
-    <b>  you are currently adding Entry ID : {entryId}</b>
-        {sections[currentSection - 1].map((question, index) => (
-          <div className="question-section" key={index}>
-            <p className="question-text">{question.question}</p>
-              <input
-                className="question-input"
-                value={question.value}
-                onChange={(event) => question.setValue(event.target.value)}
-                type={question.type === 'text' ? 'text' :
-                      question.type === 'number' ? 'number' :
-                      question.type === 'tel' ? 'tel' :
-                      question.type === 'date' ? 'date' :
-                      question.type === 'checkbox' ? 'checkbox' :
-                      question.type === 'email' ? 'email' : 'text'}
-            />
-          </div>
-        ))}
+    
+      {sections[currentSection - 1].map((question, index) => (
+  <div className="question-section" key={index}>
+    <p className="question-text">{question.question}</p>
+    {question.type === 'text' && (
+      <input
+        className="question-input"
+        value={question.value}
+        onChange={(event) => question.setValue(event.target.value)}
+        type="text"
+      />
+    )}
+    {question.type === 'number' && (
+      <input
+        className="question-input"
+        value={question.value}
+        onChange={(event) => question.setValue(event.target.value)}
+        type="number"
+      />
+    )}
+    {question.type === 'tel' && (
+      <input
+        className="question-input"
+        value={question.value}
+        onChange={(event) => question.setValue(event.target.value)}
+        type="tel"
+      />
+    )}
+    {question.type === 'date' && (
+      <input
+        className="question-input"
+        value={question.value}
+        onChange={(event) => question.setValue(event.target.value)}
+        type="date"
+      />
+    )}
+    {question.type === 'checkbox' && (
+      <input
+        className="question-input"
+        value={question.value}
+        onChange={(event) => question.setValue(event.target.value)}
+        type="checkbox"
+      />
+    )}
+    {question.type === 'file' && (
+      <input
+        className="question-input"
+        value={question.value}
+        onChange={(event) => question.setValue(event.target.value)}
+        type="file"
+      />
+    )}
+    {question.type === 'email' && (
+      <input
+        className="question-input"
+        value={question.value}
+        onChange={(event) => question.setValue(event.target.value)}
+        type="email"
+      />
+    )}
+        {question.type === 'radio' && (
+      question.options.map((option, index) => (
+        <div key={index}>
+          <input
+            type="radio"
+            value={option.value}
+            checked={selectedOption === option.value}
+            onChange={handleOptionChange}
+          />
+          <label>{option.label}</label>
+        </div>
+      ))
+    )}
+  </div>
+))}
       </div>
           <button className="submit-button" onClick={() => handleSubmit()}>
           Submit
