@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from'./components/Header';
 import Form from './components/Form';
 import Login from './components/Login';
-/* import './app.css' */
+import './app.css';
 
 
 
