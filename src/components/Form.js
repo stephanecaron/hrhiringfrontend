@@ -14,7 +14,6 @@ const FormPage = () => {
   const [validationDepartement, setvalidationDepartement] = useState("");
   const [nonRetenuComment, setnonRetenuComment] = useState("");
   const [dateCandidatInforme, setdateCandidatInforme] = useState("");
-  const [selectedOption2, setSelectedOption2] = useState("");
   const [commentaireSelection, setcommentaireSelection] = useState("");
   const [rencontreEntente, setrencontreEntente] = useState("");
   const [cedulerOrientationGen, setcedulerOrientationGen] = useState("");
@@ -26,10 +25,10 @@ const FormPage = () => {
   const [dateComplete, setdateComplete] = useState("");
   let { entryId } = useParams();
   const [selectedOption, setSelectedOption] = useState("");
-  const handleOptionChange = (questionId, optionId) => {
-    setSelectedOption({ ...selectedOption, [questionId]: optionId });
-  };
+
   const handleSubmit = async () => {
+    const candidatRetenue = selectedOption[1];
+    const candidatAccepte = selectedOption[2];
     const data = {
       referenceInterne,
       dateEntrevue,
@@ -37,16 +36,29 @@ const FormPage = () => {
       telechargementFicheEntrevue,
       telechargementRefExterne,
       validationDepartement,
-      dateCandidatInforme,
       nonRetenuComment,
+      dateCandidatInforme,
       commentaireSelection,
+      rencontreEntente,
+      cedulerOrientationGen,
+      ficheEmpRemplis,
+      documentsNecessaires,
+      documentFile,
+      preparationHoraireGen,
+      acceuilGen,
+      dateComplete,
+      candidatAccepte,
+      candidatRetenue,
       entryId,
       formDate: new Date().toISOString().substring(0, 10),
     };
     console.log(data)
     await sendForm(data);
   };
-
+  const handleOptionChange = (questionId, optionId) => {
+    setSelectedOption({ ...selectedOption, [questionId]: optionId });
+  };
+  
   const section1 = [ 
     { question: "Validation des réferences Interne si applicable?", value: referenceInterne, setValue: setreferenceInterne, type: "checkbox"},
     { question: "Date de l'entrevue", value: dateEntrevue, setValue: setdateEntrevue, type: "date"},
@@ -57,7 +69,7 @@ const FormPage = () => {
     { question: "Est-ce que le candidat a été retenu?", value: selectedOption, setValue: setSelectedOption, type: "radio", id:1 , options: [{ value: "Yes", label: "Yes" }, { value: "No", label: "No" }]},
     { question: "Si non-retenu, pourquoi?", value: nonRetenuComment, setValue: setnonRetenuComment, type:"textbox"},
     { question: "Informer le candidat de la décision", value: dateCandidatInforme, setValue: setdateCandidatInforme, type:"date"},
-    { question: "Est-ce que le candidat a accepté l'offre?", value: selectedOption2, setValue: setSelectedOption2, type: "radio", id:2 ,  options: [{ value: "Yes", label: "Yes" }, { value: "No", label: "No" }] },
+    { question: "Est-ce que le candidat a accepté l'offre?", value: selectedOption, setValue: setSelectedOption, type: "radio", id:2 ,  options: [{ value: "Yes", label: "Yes" }, { value: "No", label: "No" }] },
     { question: "Commentaire", value: commentaireSelection, setValue: setcommentaireSelection, type:"textbox"},
   ];
   const section2 = [             
@@ -65,7 +77,7 @@ const FormPage = () => {
     { question: "Cédulez l'orientation général", value: cedulerOrientationGen, setValue: setcedulerOrientationGen, type: "checkbox" }, 
     { question: "Est-ce que la fiche de l'employé a été remplie", value: ficheEmpRemplis, setValue: setficheEmpRemplis, type: "checkbox" }, 
     { question: "Recueuillir les documents nécessaires (CheckVoid, Certificats, etc.)?", value: documentsNecessaires, setValue: setdocumentsNecessaires, type: "checkbox"},
-    { question: "File upload (si nécessaire)", value: documentFile, setValue: setdocumentFile, type: "checkbox"},
+    { question: "File upload (si nécessaire)", value: documentFile, setValue: setdocumentFile, type: "file"},
     { question: "Préparation de l'horaire de l'orientation général", value: preparationHoraireGen, setValue: setpreparationHoraireGen, type: "checkbox"},      
     { question: "Ajouté l'acceuil de l'employé dans agenda & invité les gens concerné", value: acceuilGen, setValue: setacceuilGen, type: "checkbox"},      
     { question: "Date de la completion de l'embauche", value: dateComplete, setValue: setdateComplete, type: "date"},      
